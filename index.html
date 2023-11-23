@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Caja de Polinomios</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/mathquill/0.10.1/mathquill.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathquill/0.10.1/mathquill.min.js"></script>
+    <style>
+      main {
+        position: relative;
+      }
+      canvas {
+        width: 98vw;
+        height: 97vh;
+        display: block;
+      }
+      p,
+      span {
+        position: absolute;
+        font-size: 1.5rem;
+        user-select: none;
+      }
+      .linea-vertical {
+        position: absolute;
+        top: 0;
+        width: 2px;
+        height: 100%;
+        background-color: #000;
+        cursor: ew-resize;
+      }
+      .nombres {
+        font-size: 1.3rem;
+        position: absolute;
+        user-select: none;
+      }
+      #math-field {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        width: 310px;
+        height: 35px;
+      }
+      .symbolab-button {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 16px;
+        text-align: center;
+        text-decoration: none;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .symbolab-button:hover {
+        background-color: #0056b3;
+      }
+
+      @media (max-width: 768px) {
+        .nombres {
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <iframe
+        src="mate.html"
+        frameborder="0"
+        width="100%"
+        height="75"
+        style="position: absolute"
+      ></iframe>
+
+      <canvas id="myCanvas"></canvas>
+
+      <!-- Etiqueta "y" -->
+      <div
+        id="etiquetaY"
+        style="
+          position: absolute;
+          top: 10px;
+          left: 51%;
+          transform: translateX(-50%);
+          font-size: 1.5rem;
+        "
+      >
+        y
+      </div>
+
+      <!-- Etiqueta "x" -->
+      <div
+        id="etiquetaX"
+        style="
+          position: absolute;
+          top: 52%;
+          right: 24px;
+          transform: translateY(-50%);
+          font-size: 1.5rem;
+        "
+      >
+        x
+      </div>
+
+      <!-- Punto - en el primer cuadrante -->
+      <div
+        id="puntoNegativo1"
+        style="
+          position: absolute;
+          top: 15%;
+          left: 17%;
+          transform: translate(-50%, -50%);
+          font-size: 6rem;
+        "
+      >
+        -
+      </div>
+
+      <!-- Punto + en el segundo cuadrante -->
+      <div
+        id="puntoPositivo2"
+        style="
+          position: absolute;
+          top: 15%;
+          right: 10%;
+          transform: translate(-50%, -50%);
+          font-size: 3rem;
+        "
+      >
+        +
+      </div>
+
+      <!-- Punto + en el tercer cuadrante -->
+      <div
+        id="puntoPositivo3"
+        style="
+          position: absolute;
+          bottom: 15%;
+          left: 17%;
+          transform: translate(-50%, -50%);
+          font-size: 3rem;
+        "
+      >
+        +
+      </div>
+
+      <!-- Punto - en el cuarto cuadrante -->
+      <div
+        id="puntoNegativo4"
+        style="
+          position: absolute;
+          bottom: 10%;
+          right: 10%;
+          transform: translate(-50%, -50%);
+          font-size: 6rem;
+        "
+      >
+        -
+      </div>
+
+      <!-- Líneas verticales -->
+      <div
+        id="linea1"
+        class="linea linea-vertical"
+        style="
+          position: absolute;
+          left: 5px;
+          top: 0;
+          cursor: ew-resize;
+          background-color: red;
+        "
+        draggable="true"
+      ></div>
+      <div
+        id="linea2"
+        class="linea linea-vertical"
+        style="
+          position: absolute;
+          left: 15px;
+          top: 0;
+          cursor: ew-resize;
+          background-color: red;
+        "
+        draggable="true"
+      ></div>
+      <div
+        id="linea3"
+        class="linea linea-vertical"
+        style="
+          position: absolute;
+          left: 25px;
+          top: 0;
+          cursor: ew-resize;
+          background-color: red;
+        "
+        draggable="true"
+      ></div>
+      <div
+        id="linea4"
+        class="linea linea-vertical"
+        style="
+          position: absolute;
+          left: 35px;
+          top: 0;
+          cursor: ew-resize;
+          background-color: red;
+        "
+        draggable="true"
+      ></div>
+      <div
+        id="linea5"
+        class="linea linea-vertical"
+        style="
+          position: absolute;
+          left: 5px;
+          top: 0;
+          cursor: ew-resize;
+          background-color: red;
+        "
+        draggable="true"
+      ></div>
+      <div
+        id="linea6"
+        class="linea linea-vertical"
+        style="
+          position: absolute;
+          left: 15px;
+          top: 0;
+          cursor: ew-resize;
+          background-color: red;
+        "
+        draggable="true"
+      ></div>
+      <div
+        id="linea7"
+        class="linea linea-vertical"
+        style="
+          position: absolute;
+          left: 25px;
+          top: 0;
+          cursor: ew-resize;
+          background-color: red;
+        "
+        draggable="true"
+      ></div>
+      <div
+        id="linea8"
+        class="linea linea-vertical"
+        style="
+          position: absolute;
+          left: 35px;
+          top: 0;
+          cursor: ew-resize;
+          background-color: red;
+        "
+      ></div>
+
+      <section>
+        <!-- Primer cuadrado principal -->
+        <div
+          id="cuadradoPrincipal1"
+          class="cuadrado"
+          style="position: absolute; left: 50px; top: 50px; cursor: pointer"
+        >
+          <p style="top: -2px; left: 34px">x<sup>2</sup></p>
+
+          <div
+            id="cuadradoInterno1"
+            draggable="true"
+            ondragstart="arrastre(event)"
+            style="
+              width: 79px;
+              height: 79px;
+              padding: 10px;
+              background-color: rgb(44, 155, 0);
+              border: 1px solid;
+              cursor: pointer;
+              padding: 0;
+            "
+          ></div>
+        </div>
+
+        <!-- Segundo cuadrado principal -->
+        <div
+          id="cuadradoPrincipal2"
+          class="cuadrado"
+          style="position: absolute; left: 140px; top: 50px; cursor: pointer"
+        >
+          <span style="left: 15px; top: 22px">x</span>
+          <div
+            id="cuadradoInterno2"
+            draggable="true"
+            ondragstart="arrastre(event)"
+            style="
+              width: 39px;
+              height: 79px;
+              padding: 10px;
+              background-color: orange;
+              border: 1px solid;
+              cursor: pointer;
+              padding: 0;
+            "
+          ></div>
+        </div>
+
+        <!-- Tercer cuadrado principal -->
+        <div
+          id="cuadradoPrincipal3"
+          class="cuadrado"
+          style="position: absolute; left: 50px; top: 140px; cursor: pointer"
+        >
+          <span style="top: 4px; left: 36px">x</span>
+          <div
+            id="cuadradoInterno3"
+            draggable="true"
+            ondragstart="arrastre(event)"
+            style="
+              width: 79px;
+              height: 39px;
+              padding: 10px;
+              background-color: orange;
+              border: 1px solid;
+              cursor: pointer;
+              padding: 0;
+            "
+          ></div>
+        </div>
+
+        <!-- Cuarto cuadrado principal -->
+        <div
+          id="cuadradoPrincipal4"
+          class="cuadrado"
+          style="position: absolute; left: 140px; top: 140px; cursor: pointer"
+        >
+          <span style="top: 7px; left: 14px">1</span>
+          <div
+            id="cuadradoInterno4"
+            draggable="true"
+            ondragstart="arrastre(event)"
+            style="
+              width: 39px;
+              height: 39px;
+              padding: 10px;
+              background-color: rgb(0, 157, 255);
+              border: 1px solid;
+              cursor: pointer;
+              padding: 0;
+            "
+          ></div>
+        </div>
+      </section>
+
+      <!-- Botón para ir a Symbolab -->
+      <div style="position: fixed; bottom: 10px; left: 60px">
+        <a
+          href="https://www.symbolab.com/"
+          target="_blank"
+          class="symbolab-button"
+          >Ir a Symbolab</a
+        >
+      </div>
+
+      <!-- Botón para ir al Taller -->
+      <div style="position: fixed; bottom: 10px; left: 202px">
+        <a
+          style="background-color:rgb(46, 196, 0);"
+          href="https://docs.google.com/document/d/1goyOsDXOzsIvTWpggcQRuyrWwTf-V7r5LKjYk27gDuo/edit?usp=sharing "
+          target="_blank"
+          class="symbolab-button"
+          >Taller</a
+        >
+      </div>
+
+      <!-- Botón para ir a la Rúbrica -->
+      <div style="position: fixed; bottom: 10px; left: 290px">
+       <a
+          style="background-color:rgb(224, 7, 184);"
+          href="https://docs.google.com/spreadsheets/d/1aZkdl3c9uBkqusvVB6vVxFka527AuCa2/edit?usp=sharing&ouid=113814493785469413589&rtpof=true&sd=true "
+          target="_blank"
+          class="symbolab-button"
+          >Rúbrica</a
+        >
+      </div>
+
+      <div class="nombres" id="nombre1" style="bottom: 40px; right: 20px">
+        Juan Sebastián Gaona Paredes - Código: 20201187268
+        
+      </div>
+      <div class="nombres" id="nombre2" style="bottom: 10px; right: 20px">
+        William Andrés Jaramillo Murcia - Código: 20201186933
+      </div>
+    </main>
+    <script src="./scriptsJS/canvas.js"></script>
+    <script src="./scriptsJS/cuadrados.js"></script>
+    <script src="./scriptsJS/lineas.js"></script>
+    <!-- <script src="scriptsJS/mathquill.js"></script> -->
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
